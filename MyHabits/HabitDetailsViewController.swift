@@ -31,6 +31,7 @@ class HabitDetailsViewController : UIViewController {
         title = habit?.name
         view.backgroundColor = .secondarySystemBackground
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Править", style: .done, target: self, action: #selector(didTapBtn))
+        navigationController?.navigationBar.tintColor = UIColor(named: "purpleColor")
         
         view.addSubview(tableView)
         

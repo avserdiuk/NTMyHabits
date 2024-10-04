@@ -93,6 +93,7 @@ class HabitViewController : UIViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Отмена", style: .plain, target: self, action: #selector(didTapCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Сохранить", style: .done, target: self, action: #selector(didTapSave))
+        navigationController?.navigationBar.tintColor = UIColor(named: "purpleColor")
         
         view.addSubview(labelText1)
         view.addSubview(textInput)

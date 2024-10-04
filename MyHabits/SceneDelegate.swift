@@ -21,12 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         
         let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = UIColor(named: "purpleColor")
        
         let controller1 = HabitsViewController()
         let controller2 = InfoViewController()
         
-        let item1 = UITabBarItem(title: "Habits", image: UIImage(systemName: "list.bullet"), tag: 0)
-        let item2 = UITabBarItem(title: "Info", image: UIImage(systemName: "info.circle"), tag: 1)
+        let item1 = UITabBarItem(title: "Привычки", image: UIImage(systemName: "list.bullet"), tag: 0)
+        let item2 = UITabBarItem(title: "Информация", image: UIImage(systemName: "info.circle"), tag: 1)
         
         controller1.tabBarItem = item1
         controller2.tabBarItem = item2

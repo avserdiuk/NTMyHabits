@@ -36,6 +36,7 @@ class HabitsViewController: UIViewController {
         navigationItem.title = "Сегодня"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
+        navigationController?.navigationBar.tintColor = UIColor(named: "purpleColor")
         
         view.addSubview(collectionView)
         
