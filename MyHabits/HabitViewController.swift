@@ -9,6 +9,8 @@ import UIKit
 
 class HabitViewController : UIViewController {
     
+    var habit : Habit?
+    
     private lazy var labelText1 : UILabel = {
        let label = UILabel()
         label.text = "НАЗВАНИЕ"
@@ -74,6 +76,16 @@ class HabitViewController : UIViewController {
         return picker
     }()
     
+    private lazy var deleteButton: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Удалить привычку", for: .normal)
+        btn.setTitleColor(.systemRed, for: .normal)
+        btn.isHidden = true
+        btn.addTarget(self, action: #selector(didTapDeleteBtn), for: .touchUpInside)
+        return btn
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .secondarySystemBackground
@@ -89,6 +101,7 @@ class HabitViewController : UIViewController {
         view.addSubview(labelText3)
         view.addSubview(labelText4)
         view.addSubview(timePicker)
+        view.addSubview(deleteButton)
         
         NSLayoutConstraint.activate([
             
@@ -116,23 +129,83 @@ class HabitViewController : UIViewController {
             timePicker.centerYAnchor.constraint(equalTo: labelText4.centerYAnchor),
             timePicker.leadingAnchor.constraint(equalTo: labelText4.trailingAnchor, constant: 1),
             
+            deleteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            deleteButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8)
+            
         ])
         
         viewColor.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapColorView)))
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let habit else { return }
+        setup(habit)
+    }
+    
+    func setup(_ habit: Habit){
+        textInput.text = habit.name
+        timePicker.date = habit.date
+        viewColor.backgroundColor = habit.color
+        
+        deleteButton.isHidden = false
+    }
+    
+    @objc func didTapDeleteBtn(){
+        guard let habit else { return }
+        
+        let message = "Вы хотите удалить привычку \"\(habit.name)\"?"
+        let alert = UIAlertController(title: "Удалить привычку", message: message, preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+            HabitsStore.shared.habits.removeAll {
+                $0 == self.habit
+            }
+
+            self.navigationController?.popToViewController((self.navigationController!.viewControllers.first)!, animated: true)
+            
+        }
+        
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
     @objc func didTapCancel(){
-        dismiss(animated: true)
+        
+        if habit != nil {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
     }
     
     @objc func didTapSave(){
         
-        let newHabit = Habit(name: textInput.text ?? "empty",
-                             date: timePicker.date,
-                             color: viewColor.backgroundColor ?? .white)
-//        let store = HabitsStore.shared
-//        store.habits.append(newHabit)
-//        dismiss(animated: true)
+        if habit != nil {
+            
+            habit?.name = textInput.text ?? ""
+            habit?.color = viewColor.backgroundColor ?? .white
+            habit?.date = timePicker.date
+            
+            navigationController?.popToViewController((navigationController!.viewControllers.first)!, animated: true)
+        } else {
+            
+            var title = textInput.text ?? ""
+            
+            if title == "" {
+                title = "Новая привычка"
+            }
+            
+            let newHabit = Habit(name: title,
+                                 date: timePicker.date,
+                                 color: viewColor.backgroundColor ?? .white)
+            let store = HabitsStore.shared
+            store.habits.append(newHabit)
+            dismiss(animated: true)
+        
+        }
         
     }
     
