@@ -106,6 +106,12 @@ class HabitCollectionViewCell : UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        checkImageView.isHidden = true
+        checkView.layer.backgroundColor = nil
+    }
+    
     func setup(){
         guard let habit else { return }
         titleLabel.text = habit.name
@@ -115,9 +121,8 @@ class HabitCollectionViewCell : UICollectionViewCell {
         footerLabel.text = "Счетчик \(habit.trackDates.count)"
         
         guard habit.isAlreadyTakenToday else { return }
-        self.checkView.backgroundColor = habit.color
+        checkView.layer.backgroundColor = habit.color.cgColor
         checkImageView.isHidden = false
-        
     }
     
     @objc func didTapCheckView(){
