@@ -63,7 +63,7 @@ extension HabitDetailsViewController : UITableViewDelegate, UITableViewDataSourc
         cell.accessoryType = HabitsStore.shared.habit(habit!, isTrackedIn: HabitsStore.shared.dates[indexPath.row]) ? .checkmark : .none
         cell.tintColor = UIColor(named: "purpleColor")
         
-        cell.backgroundColor = .white
+        cell.backgroundColor = UIColor(named: "cellBackgroud")
         return cell
     }
     
