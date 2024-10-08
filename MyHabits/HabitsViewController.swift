@@ -32,8 +32,7 @@ class HabitsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        navigationItem.title = "Сегодня"
+        navigationItem.title = "На сегодня"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAdd))
         navigationController?.navigationBar.tintColor = UIColor(named: "purpleColor")
@@ -74,7 +73,7 @@ extension HabitsViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         if indexPath.item == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "progressCell", for: indexPath) as! ProgressCollectionViewCell
-            cell.backgroundColor = .white
+            cell.backgroundColor = UIColor(named: "cellBackground")
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
             cell.setup(progress: HabitsStore.shared.todayProgress)
@@ -84,7 +83,7 @@ extension HabitsViewController: UICollectionViewDelegate, UICollectionViewDataSo
             cell.delegate = self
             cell.habit = HabitsStore.shared.habits[indexPath.item-1]
             cell.setup()
-            cell.backgroundColor = .white
+            cell.backgroundColor = UIColor(named: "cellBackground")
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
             return cell
